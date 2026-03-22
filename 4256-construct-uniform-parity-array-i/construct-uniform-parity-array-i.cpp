@@ -1,8 +1,8 @@
 class Solution {
 public:
     bool uniformArray(vector<int>& nums1) {
-        int odd = 0, even  = 0;
-        for(auto a : nums1) if(a%2) odd++; else even++;
+        int odd = 0;
+        for(auto a : nums1) if(a%2) odd++;
         bool evenans = true , oddans = true;
         // even bna
         for(auto a : nums1){
