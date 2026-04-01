@@ -8,8 +8,7 @@ public:
         int pre = 0;
         for(int i = 0; i < n; i++){
             pre += nums[i];
-            while(pre < 0) pre += k;
-            pre %= k;
+            pre = ((pre  % k) + k)%k;
             ans += pos[pre];
             pos[pre]++;
         }
