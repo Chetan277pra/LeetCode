@@ -1,34 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
-    int cal(int a, int b) {
-        int ax = a / 6, ay = a % 6, bx = b / 6, by = b % 6;
+    int n;
+    vector<vector<vector<int>>> dp;
+
+    // Calculate Manhattan distance between two characters
+    int dist(int a, int b) {
+        if (a == 26 || b == 26) return 0; // Finger not used yet
         return abs(a / 6 - b / 6) + abs(a % 6 - b % 6);
     }
 
-    int minimumDistance(string s) {
-        int n = s.size(), dp[300][26][26];
+    int rec(string &word, int ind, int f1, int f2) {
+        if (ind == n) return 0;
 
-        for (int i = 0; i < n; i++) {
-            int t = s[i] - 'A';
-            for (int j = 0; j < 26; j++) {
-                for (int k = 0; k < 26; k++) {
-                    dp[i + 1][j][k] = 1e6;
-                }
-            }
-            for (int j = 0; j < 26; j++) {
-                for (int k = 0; k < 26; k++) {
-                    dp[i + 1][j][t] = min(dp[i + 1][j][t], dp[i][j][k] + cal(k, t));
-                    dp[i + 1][t][k] = min(dp[i + 1][t][k], dp[i][j][k] + cal(j, t));
-                }
-            }
-        }
+        if (dp[ind][f1][f2] != -1)
+            return dp[ind][f1][f2];
 
-        int ans = 1e6;
-        for (int j = 0; j < 26; j++) {
-            for (int k = 0; k < 26; k++) {
-                ans = min(ans, dp[n][j][k]);
-            }
-        }
-        return ans;
+        int curr = word[ind] - 'A';
+
+        // Option 1: Use first finger
+        int useFirst = dist(f1, curr) + rec(word, ind + 1, curr, f2);
+
+        // Option 2: Use second finger
+        int useSecond = dist(f2, curr) + rec(word, ind + 1, f1, curr);
+
+        return dp[ind][f1][f2] = min(useFirst, useSecond);
+    }
+
+    int minimumDistance(string word) {
+        n = word.size();
+        dp.assign(n, vector<vector<int>>(27, vector<int>(27, -1)));
+        return rec(word, 0, 26, 26); // दोनों fingers initially unused
     }
 };
