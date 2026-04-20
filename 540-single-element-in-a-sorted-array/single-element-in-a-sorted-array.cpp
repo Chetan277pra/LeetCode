@@ -16,7 +16,7 @@ public:
             if(mid%2){
                 // agar uppar mila to niche hoga
             if(nums[mid] == nums[mid+1])
-              r = mid;
+              r = mid-1;
             else l = mid+1;
             }
             else{
