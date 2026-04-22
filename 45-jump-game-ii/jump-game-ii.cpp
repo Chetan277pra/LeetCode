@@ -4,7 +4,7 @@ class Solution {
 
         int n = nums.size();
         if(pos>=n-1) return 0;
-        if(dp[pos]!=1982) return dp[pos];
+        if(dp[pos]!=982) return dp[pos];
         // if (nums[pos] == 0)
         //     return INT_MAX;
         int mini=INT_MAX;
@@ -21,7 +21,7 @@ class Solution {
 public:
     int jump(vector<int>& nums) {
         int ans=0;
-        vector<int> dp(nums.size()+1 , 1982);
+        vector<int> dp(nums.size()+1 , 982);
         return rec(ans , nums , dp);
     }
 };
