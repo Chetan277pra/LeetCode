@@ -1,34 +1,14 @@
 class Solution {
 public:
-    int ans = -1;
-    int n ;
-    void rec(vector<int>& nums , int l , int r){
-        if(l == r){
-            if(l == 0 ) {
-                if( nums[l] > nums[l+1])
-                ans = l;
-                return;
-            } 
-            else if(l == n-1 ){
-                if( nums[l] > nums[l-1])
-                ans = l;
-                return;
-            }
-            else {
-                if(nums[l-1] < nums[l] and nums[l] > nums[l+1])
-                ans = l;
-                return;
-            }
-        }
-        int mid = l + (r-l)/2;
-        rec(nums , l , mid);
-        rec(nums , mid+1 , r);
-        return;
-    }
     int findPeakElement(vector<int>& nums) {
-        n = nums.size();
-        if(n == 1) return 0;
-        rec(nums , 0 , n-1);
-        return ans;
+        int l = 0;
+        int r = nums.size()-1;
+        if(r == 0) return 0;
+        while(l < r){
+            int mid = l + (r-l)/2;
+            if(nums[mid] > nums[mid+1]) r = mid;
+            else l = mid+1;
+        }
+        return l;
     }
 };
