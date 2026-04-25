@@ -1,47 +1,41 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-
-        vector<vector<pair<int,int>>> adj(n+1);
-
-        for(auto &a : times){
+        vector<vector<pair<int , int>>> adj(n+1);
+        for(auto a : times){
             int u = a[0];
             int v = a[1];
-            int t = a[2];
-            adj[u].push_back({v, t});
+            int time = a[2];
+            adj[u].push_back({v , time});
         }
-
-        vector<int> dist(n+1, INT_MAX);
+        vector<int> dist(n+1 , INT_MAX);
         dist[k] = 0;
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
-        pq.push({0, k});
+        priority_queue<pair<int , int>,
+        vector<pair<int , int>>, greater<pair<int , int>>
+        > q;
+        q.push({0 , k});
 
-        while(!pq.empty()){
-            auto it = pq.top(); 
-            pq.pop();
-
-            int d = it.first;
-            int node = it.second;
-
-            if(d > dist[node]) continue;
-
-            for(auto &edge : adj[node]){
-                int nextNode = edge.first;
-                int weight = edge.second;
-
-                if(d + weight < dist[nextNode]){
-                    dist[nextNode] = d + weight;
-                    pq.push({dist[nextNode], nextNode});
+        while(!q.empty()){
+            auto aa = q.top(); q.pop();
+            int node = aa.second;
+            int di = aa.first;
+            
+            for(auto a : adj[node]){
+                int tempnode = a.first;
+                int tempdist = a.second;
+                if( (( di + tempdist ) != INT_MAX )and 
+                    ( di + tempdist ) < dist[tempnode]){
+                    dist[tempnode] = di + tempdist;
+                    q.push({di + tempdist , tempnode});
                 }
             }
         }
-
         int ans = 0;
         for(int i = 1; i <= n; i++){
-            if(dist[i] == INT_MAX) return -1;
-            ans = max(ans, dist[i]);
+            int a = dist[i];
+            if(a == INT_MAX) return -1;
+            ans = max(ans , a);
         }
-
         return ans;
     }
 };
