@@ -5,7 +5,7 @@ public:
             int diff = (a[1] - a[0]) - (b[1] - b[0]);
             return diff > 0;
         });
-        // for(auto a : vec) cout<<a.first<<" "<<a.second<<endl;
+        // for(auto a : vec) cout<<a[0]<<" "<<a[1]<<endl;
         int mini = 0, left = 0;
         // cout<<endl;
         for (auto a : vec) {
