@@ -1,39 +1,59 @@
 class Solution {
 public:
+    class TriesNode{
+        public:
+        char data;
+        vector<TriesNode *> child;
+        bool isend;
+        TriesNode(char val){
+            data = val;
+            child.assign(10 , NULL);
+            isend = true;
+        }
+    };
+    class Tries{
+        public:
+        TriesNode* root;
+        Tries(){
+            root = new TriesNode('\0');
+        }
+        void build(string s){
+            int n = s.length();
+            TriesNode *rr = root;
+            for(int i = 0; i < n; i++){
+                int temp = s[i] - '0';
+                if(rr->child[temp] == NULL) 
+                rr->child[temp] = new TriesNode(s[i]);
+                rr = rr->child[temp];
+            }
+            rr->isend = true;
+        }
+        int longest(string s){
+            int n = s.length();
+            int len = 0;
+            TriesNode * rr = root;
+            for(int i = 0; i < n; i++){
+                int temp = s[i] - '0';
+                if(rr->child[temp] == NULL) break;
+                len++;
+                rr = rr->child[temp];
+            }
+            return len;
+        }
+    };
+
     int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
-        unordered_map<int,int> prefix;
-        // store all prefix of anyone array
-        for(auto& val:arr1){
-            int num = val;
-            while(num>0){
-                prefix[num]++; // 1000 -> 1000/10 = 100 -> 100/10 = 10 -> 10/10 = 1
-                num /= 10;
-            }
+        Tries * tt;
+        tt = new Tries();
+        for(auto a : arr1){
+            string t = to_string(a);
+            tt->build(t);
         }
-
-        // max length variable mx
-        int mx = INT_MIN;
-
-        // instead of creating other map we can check prefix at moment
-        for(auto& val:arr2){
-            int num = val;
-            // count no. of digits in num
-            int len = log10(num)+1;
-
-            // again generate all prefix
-            while(num>0){
-                // if prefix found simply break
-                if(prefix.find(num)!=prefix.end()){
-                    break;
-                }
-                num /= 10;
-                // decrease digit as we decreased prefix
-                len--;
-            }
-
-            mx = max(mx, len);
+        int ans = 0;
+        for(auto a : arr2){
+            string t = to_string(a);
+            ans = max(ans , tt->longest(t));
         }
-
-        return mx;
+        return ans;
     }
 };
