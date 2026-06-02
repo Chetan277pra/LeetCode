@@ -24,8 +24,9 @@ public:
         for(int i = 0; i < m; i++){
             temp[i] += max( 0 , landDuration[ind1] - waterStartTime[i]);
         }
-        sort(temp.begin() , temp.end());
-        int curra = temp.front();
+        int curra = INT_MAX;
+        for(auto a : temp) curra = min(curra , a);
+        
         // cout<<ind1<<" "<<curra;
         // now second
 
@@ -47,8 +48,9 @@ public:
         for(int i = 0; i < n; i++){
             temp[i] += max( 0 , waterDuration[ind2] - landStartTime[i]);
         }
-        sort(temp.begin() , temp.end());
-        int currb = temp.front();
+        
+        int currb = INT_MAX;
+        for(auto a : temp) currb = min(currb , a);
         // cout<<endl;
         // cout<<ind2<<" "<<currb;
 
