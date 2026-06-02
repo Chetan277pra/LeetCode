@@ -49,8 +49,8 @@ public:
         }
         sort(temp.begin() , temp.end());
         int currb = temp.front();
-        cout<<endl;
-        cout<<ind2<<" "<<currb;
+        // cout<<endl;
+        // cout<<ind2<<" "<<currb;
 
          mini = min(curra , currb);
          return mini;
