@@ -22,9 +22,8 @@ public:
         reverse(t.begin() , t.end());
         temp += t;
         vector<int> lps = lpsarray(temp);
-        // cout<<lps.back();
-        string ss = s.substr(lps.back());
-        reverse(ss.begin() , ss.end());
+        int n = s.length();
+        string ss = temp.substr(n+1 , n - lps.back()); 
         return ss + s;
     }
 };
