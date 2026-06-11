@@ -5,12 +5,11 @@ public:
     int pow(int a , int b){
         int res = 1;
         a = (a) % modu;
-        long long aa = a;
         while(b){
             if(b & 1 ){
-                res = (res*aa)%modu;
+                res = (1ll* res*a)%modu;
             }
-            aa = (1ll * (aa % modu) * (aa%modu))%modu;
+            a = (1ll*(a % modu) * (a%modu))%modu;
             b /= 2;
         }
         return res;
