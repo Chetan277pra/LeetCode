@@ -10,31 +10,22 @@ public:
 */
 
 class Solution {
-    void rec(Node* &head){
-        if(!head) return;
-
-        while(head){
-            if(!head->next and !head->child) return;
-            if(!head->child){ head = head->next; continue;}
-            Node* tt = head->next;
-            Node* last = head->child;
-            // cout << tt->val<<" ";
-            head->next = last;
-            last->prev = head;
-            head->child = nullptr;
-            rec(last);
-            last->next = tt;
-            if(tt)
-            tt->prev = last;
-            head = last;
-            // cout << endl;
-        }
-
-    }
 public:
-    Node* flatten(Node* head) {
-        Node* tt = head;
-        rec(tt);
+    Node* flatten(Node*&head) {
+        Node* temp = head;
+        while(temp){
+            if(!temp->child) {temp = temp->next; continue;}
+            Node* tt = temp->next;
+            Node* cc = temp->child;
+            temp->child = nullptr;
+            temp->next = cc;
+            cc->prev = temp;
+            while(cc->next) cc = cc->next;
+            cc->next = tt;
+            if(tt)
+            tt->prev = cc;
+            temp = temp->next;
+        }
         return head;
     }
 };
