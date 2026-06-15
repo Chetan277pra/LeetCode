@@ -20,7 +20,7 @@ public:
         while(curr < mid) curr++, temp = temp->next;
         if(temp->next)
         temp->next = temp->next->next;
-        else temp->next = nullptr;
+        // else temp->next = nullptr;
         if(mid < 0) head = head->next;
         return head;
     }
