@@ -1,12 +1,12 @@
 class Solution {
 public:
-    set<vector<int>> ans;
+    vector<vector<int>> ans;
     int n;
     void rec(vector<int>& vec , int &t , int ind, int temp, vector<int> &tt){
         if(ind >= n) return;
         if(temp > t) return;
         if(temp == t) {
-            ans.insert(tt);
+            ans.push_back(tt);
             return;
         }
         // skip
@@ -14,7 +14,6 @@ public:
         // take same call same
         tt.push_back(vec[ind]);
         rec(vec , t , ind , temp+vec[ind] , tt);
-        rec(vec , t , ind +1 , temp + vec[ind] , tt);
         tt.pop_back();
         return;
     }
@@ -22,8 +21,8 @@ public:
         vector<int> tt;
         n = vec.size();
         rec(vec , target , 0 , 0 , tt);
-        vector<vector<int>> res;
-        for(auto a : ans) res.push_back(a);
-        return res;
+        // vector<vector<int>> res;
+        // for(auto a : ans) res.push_back(a);
+        return ans;
     }
 };
