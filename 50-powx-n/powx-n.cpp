@@ -1,17 +1,21 @@
 class Solution {
 public:
-    double rec(double x ,long long n , double res){
-        if(n == 0) return res;
-        if(n < 0){
-            x = 1/x;
-            n = -n;
+    double pow(double x , int n){
+        double res = 1;
+        while(n){
+            if(n & 1) res *= x;
+            x *= x;
+            n /= 2;
         }
-        if(n%2){
-            res = res * x;
-        }
-        return rec(x*x , n/2, res);
+        return res;
     }
     double myPow(double x, int n) {
-       return rec(x , (long long)n , 1);
+        if(n < 0) {
+            x = 1/x;
+            if(n == INT_MIN) n = INT_MAX - 1;
+            else
+            n *= -1;
+        }
+        return pow(x , n);
     }
 };
