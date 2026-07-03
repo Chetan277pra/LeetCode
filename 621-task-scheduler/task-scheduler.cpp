@@ -25,10 +25,10 @@ public:
                 ans++;
                 temp--;
                 it.first--;
-                cout <<it.first <<" " <<it.second<<"\n";
+                // cout <<it.first <<" " <<it.second<<"\n";
                 if(it.first > 0) mpp[it.second] = it.first;
             }
-            cout <<"bbahar"<<endl;
+            // cout <<"bbahar"<<endl;
             // for(auto a : mpp){
             //     cout << a.first << " " <<a.second<<endl;
             // }
