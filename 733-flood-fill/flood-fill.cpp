@@ -7,16 +7,15 @@ public:
         int m = image.size();
         int n = image[0].size();
         int same = image[sr][sc];
-        vector<vector<bool>> vis(m , vector<bool>(n , false));
+        if(same == color) return image;
         while(!q.empty()){
             auto [x , y] = q.front(); q.pop();
             image[x][y] = color;
-            vis[x][y] = true;
             // cout <<x <<" " << y<<" : ";
             for(auto d : dir){
                 int i = x + d.first;
                 int j = y + d.second;
-                if(i >= 0 and j >= 0 and i < m and j < n and image[i][j] == same and !vis[i][j]){
+                if(i >= 0 and j >= 0 and i < m and j < n and image[i][j] == same){
                 // cout <<i<<" " <<j <<"\n";
                     q.push({i , j});
                 }
