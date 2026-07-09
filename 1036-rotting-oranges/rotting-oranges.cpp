@@ -1,45 +1,46 @@
 class Solution {
 public:
-    int ans = 0;
-    int n , m;
-    int rec(vector<vector<int>>& grid, int row, int col, vector<vector<bool>>& vis)
-    {
-        if(row < 0 or row >= n or col < 0 or col >= m)
-            return INT_MAX;
-
-        if(grid[row][col] == 2)
-            return 0;
-
-        if(grid[row][col] == 0 or vis[row][col])
-            return INT_MAX;
-
-        vis[row][col] = 1;
-
-        int ans = min({
-            rec(grid, row-1, col, vis),
-            rec(grid, row+1, col, vis),
-            rec(grid, row, col-1, vis),
-            rec(grid, row, col+1, vis)  
-        });
-
-        vis[row][col] = 0;
-
-        return ans == INT_MAX ? INT_MAX : ans + 1;
-    }
     int orangesRotting(vector<vector<int>>& grid) {
-        int ans = 0;
-        n = grid.size();
-        m = grid[0].size();
-        vector<vector<bool>> vis(n , vector<bool>(m , false));
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                if(grid[i][j] == 1) {
-                    int temp = rec(grid , i , j , vis);
-                    if(temp == INT_MAX) return -1;
-                    ans = max(ans , temp);
+        int m = grid.size();
+        int n = grid[0].size();
+        queue<pair<int, int>> q;
+        int countFreshOrange = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 2) {
+                    q.push({i, j});
+                }
+                if (grid[i][j] == 1) {
+                    countFreshOrange++;
                 }
             }
         }
-        return ans;
+        if (countFreshOrange == 0)
+            return 0;
+        if (q.empty())
+            return -1;
+        int ans = 0;
+        vector<pair<int, int>> dirs = {{1, 0},{-1, 0},{0, -1},{0, 1}};
+        while (!q.empty()) {
+            int size = q.size();
+            while (size--) {
+                auto [x, y] = q.front();
+                q.pop();
+                ans = max(ans , grid[x][y]);
+                for (auto [dx, dy] : dirs) {
+                    int i = x + dx;
+                    int j = y + dy;
+                    if (i >= 0 && i < m && j >= 0 && j < n && grid[i][j] == 1) {
+                        grid[i][j] = grid[x][y] + 1;
+                        q.push({i, j});
+                        countFreshOrange--;
+                    }
+                }
+            }
+        }
+        
+        if (countFreshOrange == 0)
+            return ans-2;
+        return -1;
     }
 };
