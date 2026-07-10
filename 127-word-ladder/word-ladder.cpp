@@ -1,71 +1,60 @@
 class Solution {
 public:
-    bool check(string &a, string &b) {
-        if (a.size() != b.size())
-            return false;
-
-        int diff = 0;
-
-        for (int i = 0; i < a.size(); i++) {
-            if (a[i] != b[i]) {
-                diff++;
-                if (diff > 1)
-                    return false;
-            }
-        }
-
-        return diff == 1;
-    }
-
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
 
-        int n = wordList.size();
+        unordered_set<string> dict(wordList.begin(), wordList.end());
 
-        unordered_map<string, vector<string>> graph;
-        unordered_set<string> words(wordList.begin(), wordList.end());
-
-        // endWord must exist
-        if (!words.count(endWord))
+        if (!dict.count(endWord))
             return 0;
 
-        // Build graph among all words in wordList
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (check(wordList[i], wordList[j])) {
-                    graph[wordList[i]].push_back(wordList[j]);
-                    graph[wordList[j]].push_back(wordList[i]);
+        unordered_set<string> beginSet;
+        unordered_set<string> endSet;
+
+        beginSet.insert(beginWord);
+        endSet.insert(endWord);
+
+        dict.erase(beginWord);
+        dict.erase(endWord);
+
+        int len = 1;
+
+        while (!beginSet.empty() && !endSet.empty()) {
+
+            // Always expand the smaller frontier
+            if (beginSet.size() > endSet.size())
+                swap(beginSet, endSet);
+
+            unordered_set<string> nextLevel;
+
+            for (string word : beginSet) {
+
+                for (int i = 0; i < word.size(); i++) {
+
+                    char original = word[i];
+
+                    for (char ch = 'a'; ch <= 'z'; ch++) {
+
+                        if (ch == original)
+                            continue;
+
+                        word[i] = ch;
+
+                        // Searches meet
+                        if (endSet.count(word))
+                            return len + 1;
+
+                        if (dict.count(word)) {
+                            nextLevel.insert(word);
+                            dict.erase(word);
+                        }
+                    }
+
+                    word[i] = original;
                 }
             }
-        }
 
-        // Connect beginWord to all possible neighbors
-        for (int i = 0; i < n; i++) {
-            if (check(beginWord, wordList[i])) {
-                graph[beginWord].push_back(wordList[i]);
-            }
-        }
-
-        // BFS
-        queue<pair<string, int>> q;
-        unordered_set<string> vis;
-
-        q.push({beginWord, 1});
-        vis.insert(beginWord);
-
-        while (!q.empty()) {
-
-            auto [word, dist] = q.front();
-            q.pop();
-
-            if (word == endWord)
-                return dist;
-
-            for (auto &next : graph[word]) {
-                if (!vis.count(next)) {
-                    vis.insert(next);
-                    q.push({next, dist + 1});
-                }
-            }
+            beginSet = nextLevel;
+            len++;
         }
 
         return 0;
