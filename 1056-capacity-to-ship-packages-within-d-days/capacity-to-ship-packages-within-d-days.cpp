@@ -14,7 +14,7 @@ public:
         return days <= d;
     }
     int shipWithinDays(vector<int>& weights, int days) {
-        int l = 0, r = INT_MAX;
+        int l = 0, r = accumulate(weights.begin() , weights.end() , 0);
         while(l < r){
             int mid = l + (r - l)/2;
             if(check(weights , days , mid)){
