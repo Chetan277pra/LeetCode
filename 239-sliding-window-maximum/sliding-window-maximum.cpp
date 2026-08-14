@@ -4,10 +4,11 @@ public:
         priority_queue<pair<int , int> , vector<pair<int , int>>, less<pair<int ,int>>> pq;
         int n = nums.size();
         vector<int> res;
-        for(int i = 0; i < k; i++) pq.push({nums[i] , i});
-        res.push_back(pq.top().first);
-        for(int i = k; i < n; i++){
+        // for(int i = 0; i < k; i++) pq.push({nums[i] , i});
+        // res.push_back(pq.top().first);
+        for(int i = 0; i < n; i++){
             pq.push({nums[i] , i});
+            if(pq.size() < k) continue;
             while(pq.top().second <= (i-k)) pq.pop();
             res.push_back(pq.top().first);
         }
