@@ -11,38 +11,31 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        int count = 0;
+        if(!head) return true;
+        int s = 0;
         ListNode* temp = head;
-        while(temp) count++, temp = temp->next;
-        int mid = (count+1)/2;
-        int curr= 0;
-        temp = head;
-        ListNode* prev = nullptr ;
-        ListNode* nn = nullptr;
-        while(curr < count){
-            if(curr < mid) {
-                curr++;
-                temp = temp->next;
-            }
-            else{
-                curr++;
-                nn = temp->next;
-                temp->next = prev;
-                prev = temp;
-                if(curr < count)
-                temp = nn;
-                // return true;
-            }
-            cout << curr << endl;
-        }
-        // return true;
-        // cout << curr << " " << mid;
-        // cout << temp->val;
         while(temp){
-            if(head->val != temp->val) return false;
+            s++;
             temp = temp->next;
-            head = head->next;
         }
-        return true;
+        int mid = s/2;
+        int cnt = 0;
+        ListNode *prev = nullptr, *curr = head, *aage = head->next;
+        while(cnt < mid){
+            cnt++;
+            curr->next = prev;
+            prev = curr;
+            curr = aage;
+            aage = aage->next;
+        // cout << prev->val << " " << curr->val<<endl;
+        }
+        if(s%2) curr = aage;
+        while(prev and curr){
+            if(prev->val != curr->val ) return false;
+            prev = prev->next;
+            curr = curr->next;
+        }
+        if(!prev and !curr) return true;
+        return false;
     }
 };
