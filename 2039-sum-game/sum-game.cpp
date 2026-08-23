@@ -22,11 +22,11 @@ public:
         if(tot%2) return true;
         if(tot < 0){
             if(s > f) return true;
-            return (f-s) != (abs(tot-1)/2)*9;
+            return (f-s) != (abs(tot)/2)*9;
         }
         else{
             if(f > s) return true;
-            return (s - f) != (abs(tot+1)/2)*9;
+            return (s - f) != (abs(tot)/2)*9;
         }
 
     }
