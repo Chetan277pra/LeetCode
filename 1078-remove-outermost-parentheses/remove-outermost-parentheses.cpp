@@ -1,24 +1,18 @@
 class Solution {
 public:
     string removeOuterParentheses(string s) {
-        vector<int> temp;
+        int l = 0;
         int n = s.length();
-        vector<bool> skip(n , false);
-        for(int i = 0; i < n ; i++){
-            if(s[i] == '(') temp.push_back(i);
-            else{
-                if(temp.size() == 1){ 
-                  skip[temp.front()] = true;
-                  skip[i] = true;
-                }
-                temp.pop_back();
-            }
-            // for(auto a : temp) cout<<a<<" ";
-            // cout<<endl;
-        }
         string ans = "";
+        int bal = 0;
         for(int i = 0; i < n; i++){
-            if(!skip[i]) ans.push_back(s[i]);
+            if(s[i] == '(') bal++;
+            else bal--;
+            if(bal == 0){
+                string temp = s.substr(l+1 , i-l-1);
+                l = i+1;
+                ans += temp;
+            }
         }
         return ans;
     }
