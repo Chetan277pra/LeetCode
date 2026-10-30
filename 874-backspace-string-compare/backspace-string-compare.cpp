@@ -41,7 +41,7 @@ public:
         // cout << la << " " << lb<<endl;
             la--;
             lb--;
-            cout << la << "  " << lb << endl;
+            // cout << la << "  " << lb << endl;
         }
 
         while(la >= 0){
